@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/NAzT/Desktop/postgis-1.4.0SVN.jar"/>
+	<classpathentry kind="lib" path="/Users/NAzT/Desktop/postgresql-8.3-604.jdbc3.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
