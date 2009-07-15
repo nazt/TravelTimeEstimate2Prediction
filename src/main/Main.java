@@ -60,24 +60,22 @@ public class Main {
 		String sql_nat = "select * from gps_archive where rectime > "+ target + " and rectime < ("+ target +"::timestamp + interval '5 hour')  and lat = " + Double.toString(lat) + "and long = " + Double.toString(llong) +" order by rectime,vid ";
 		ResultSet rs = db.getResultSet(sql_nat);
 		int gid=0;
-		try{
+		try
+		{
 		  //start to calculate TT
 			rs.next();
 		//	while(rs.next()){
 			// load currect profile
 			  currectpoint =  new GPoint(rs.getDouble("direction"),rs.getDouble("lat"),rs.getDouble("long"),rs.getTimestamp("rectime"),rs.getDouble("speed"),rs.getInt("vid"));
 			  PGgeometry geom = (PGgeometry) rs.getObject("the_geom");
-//			  System.out.print(geom.toString()+","+rs.getString("gid2") + ",");
 			  currectpoint.setGeom(geom.toString());
 			  gid = matcher.getSnapLine(geom);
 			  currectpoint.setRefline(gid);
-			  //System.out.print("---> ");
-			//  System.out.println(gid);
-	//	}
+//			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		//System.out.println(sql);		
+	
 		
 		return gid;
 		
@@ -102,7 +100,6 @@ public class Main {
 		// create sql to call all gps data
 		String target =  "\'2009-05-01 00:00:00\'";
 		String sql = "select * from gps_archive where rectime > "+ target + " and rectime < ("+ target +"::timestamp + interval '5 hour') and lat > 13 and long > 100 order by rectime,vid ";
-	//		String sql_nat = "select * from gps_archive where rectime > "+ target + " and rectime < ("+ target +"::timestamp + interval '5 hour')  and lat = 13.76615 and long = 100.47565 order by rectime,vid ";
 		System.out.println(sql);
 		//100.47565 13.76615
 				ResultSet rs = db.getResultSet(sql);
@@ -151,11 +148,7 @@ public class Main {
 		}
 		
 		
-
 		//Save Data
-		
-		
-//		//Save Data
 		
 		saveCarProfile();
 		
@@ -199,7 +192,6 @@ public class Main {
 //		main.run();
 		System.out.println(main.getGidFromLatLong("\'2009-05-01 00:00:00\'",13.76615,100.47565));
 //		main.getGidFromLatLong("\'2009-05-01 00:00:00\'");
-		
 		timer = new java.util.Date();
 		// get finish time
 		Long t2 = timer.getTime();
