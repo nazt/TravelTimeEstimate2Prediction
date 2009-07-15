@@ -60,6 +60,7 @@ public class GPointCaculator {
 			return -1.0;
 		}
 		
+		
 		if(st == ed){
 			return 0.0;
 		}
