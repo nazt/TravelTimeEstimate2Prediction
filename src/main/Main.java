@@ -189,7 +189,7 @@ public class Main {
 		
 		Main main = new Main();
 
-//		main.run();
+		main.run();
 		System.out.println(main.getGidFromLatLong("\'2009-05-01 00:00:00\'",13.76615,100.47565));
 //		main.getGidFromLatLong("\'2009-05-01 00:00:00\'");
 		timer = new java.util.Date();

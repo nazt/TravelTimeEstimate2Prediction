@@ -48,7 +48,7 @@ public class GPointCaculator {
 		double ed = 0.0;
 		sql = "select st_line_locate_point(the_geom,transform(\'"+ geom_start +"\',4326)) as start ,";
 		sql += "st_line_locate_point(the_geom,transform(\'"+ geom_end +"\',4326)) as end from roadmot where gid = " + Integer.toString(gid);
-		System.out.println(sql);
+		//System.out.println(sql);
 		ResultSet rs = db.getResultSet(sql);
 	    try{
 			while(rs.next()){
