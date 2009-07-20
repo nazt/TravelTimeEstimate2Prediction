@@ -48,6 +48,24 @@ public class Main {
 		}
 		carlist.put(vid, car);
 	}
+	private double getShapeLengthFromGid(int gid)
+	{
+		db = new DBConnector();
+		db.startDB();
+		
+		String sql_nat = "select * from roadmot where gid="+gid;
+		ResultSet rs = db.getResultSet(sql_nat);
+		try{
+			 while(rs.next()){
+				// System.out.println("SH = LEN = " + rs.getDouble("shape_leng"));
+				 return rs.getDouble("shape_leng");
+			 }
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return 0.5;
+	}
 	private int getGidFromLatLong(String target,double lat,double llong)
 	{
 		// start connection to database
@@ -114,7 +132,7 @@ public class Main {
 			  currectpoint.setGeom(geom.toString());
 			  int gid = matcher.getSnapLine(geom);
 			  currectpoint.setRefline(gid);
-			  
+			  //System.out.println("MY GID = "+ gid);
 			  
 			  //check current car id
 			  if(currect_car == 0){ // case 0: initial all state 
@@ -131,10 +149,13 @@ public class Main {
 			  if(currectpoint.getRefline() != pastpoint.getRefline() && !(pastpoint.getRectime().equals(startpoint.getRectime()))){
 				  //caculate travel time here
 				  Long tt = pastpoint.getRectime().getTime() - startpoint.getRectime().getTime();
-				  System.out.print(startpoint.getVid() + " " + startpoint.getRectime().toString() + " " + pastpoint.getRectime().toString() +" ");
+				  System.out.print("VID : "+startpoint.getVid() + "  : " + startpoint.getRectime().toString() + "   " + pastpoint.getRectime().toString() +" ");
 				  double s = matcher.getTravelLenght(startpoint.getGeom(),pastpoint.getGeom(), startpoint.getRefline());
-				  System.out.print(" "+ Double.toString(s) +" ");
-				  System.out.println(tt/1000);
+				  System.out.print("Travel Length : " + s* getShapeLengthFromGid(gid) );
+				  //System.out.print("s="+ Double.toString(s) +"% of "+   Integer.toString(gid) + "time = ");
+				  //System.out.print("LEN = " +getShapeLengthFromGid(gid));
+				  System.out.println(" Time = " + tt/1000 +" secs" + " v = " + s*getShapeLengthFromGid(gid)/(tt/1000)  +"m/s") ;
+				  
 				  startpoint = currectpoint;
 				  pastpoint = currectpoint;
 			  }else{
@@ -164,7 +185,7 @@ public class Main {
 		  ObjectInputStream obj_in = new ObjectInputStream (f_in);
 		  carlist = (java.util.HashMap<Integer,CarProfile>) obj_in.readObject();
 		}catch(Exception e){
-			carlist = null;
+			carlist = null;	
 			e.printStackTrace();
 		}
 	}
@@ -190,6 +211,7 @@ public class Main {
 		Main main = new Main();
 
 		main.run();
+		System.out.println(main.getShapeLengthFromGid(136908));
 		System.out.println(main.getGidFromLatLong("\'2009-05-01 00:00:00\'",13.76615,100.47565));
 //		main.getGidFromLatLong("\'2009-05-01 00:00:00\'");
 		timer = new java.util.Date();
